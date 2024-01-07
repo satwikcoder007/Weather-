@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather</title>
+    <link rel="stylesheet" href="./main.css">
+</head>
+<body>
+    <!-- wrapper -->
+    <div class=" relative h-screen w-screen bg-blue-400 flex justify-center">
+        <!-- herosection -->
+        <div class=" relative box-border w-[500px] flex flex-col items-center">
+            <h1 class="text-white text-[32px] font-black ">WEATHER APP</h1>
+            <div class="flex w-[500px] justify-around mt-[50px]">
+                <button type="button" onclick="YourWeather()" class="text-white font-semibold" id="btn1">Your Weather</button>
+                <button type="button" onclick="searchCity()" class="text-white font-semibold" id="btn2">Search Weather</button>
+            </div>
+             <!-- searchbar -->
+            <div class="flex w-[500px] justify-start pl-[70px] mt-[50px] hidden" id="search">
+               
+                    <input type="text" value="" id="searchValue" class="opacity-50 w-[300px] rounded-md py-[2px] pl-[10px] pr-3 text-gray-600 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-white sm:text-sm" placeholder="Search for city..." />
+                    <button class="ml-[8px] box-border h-[30px] w-[30px] rounded-full opacity-55 bg-blue-300 flex items-center justify-center" type="button" onclick="searchBar()"><i class="fa-solid fa-magnifying-glass"></i></button>
+                    
+            </div>
+            <!-- content -->
+            <div class="w-full  box-border mt-[40px] flex flex-col items-center hidden" id="content">                           
+                <div class="text-white text-[26px] font-medium" id="cityName">Featching Your Data.....</div>
+                <div class="text-white mt-[5px] text-[20px]" id="skyStatus"></div>
+                <div id="image" class="mt-[5px] box-border h-[30px] w-[30px] ">
+                    <svg id="loader" aria-hidden="true" class="w-8 h-8 text-gray-200 animate-spin dark:text-gray-600 fill-black" viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z" fill="currentColor"/>
+                        <path d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z" fill="currentFill"/>
+                    </svg>
+                </div>
+                <div id="Temparature" class="text-white text-[32px] font-medium mt-[5px]"></div>
+                <div class="flex justify-evenly w-[500px] mt-[20px]">
+                    <div class="bg-opacity-50 bg-white flex flex-col items-center p-[10px] rounded-sm h-[100px] w-[130px] ">
+                        <svg id="loader1" aria-hidden="true" class="w-8 h-8 text-gray-200 animate-spin dark:text-gray-600 fill-black" viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z" fill="currentColor"/>
+                            <path d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z" fill="currentFill"/>
+                        </svg>
+                        <div id="wi" class="relative hidden">
+                            <img src="images/storm.png" width="30px" alt="">
+                            <p class="text-gray-800 mt-[10px]">WINDSPEED</p>
+                            <p class="text-gray-800" id="windSpeed"></p>
+                        </div>
+                    </div>
+                    <div class="bg-opacity-50 bg-white flex flex-col items-center p-[10px] rounded-sm h-[100px] w-[130px]">
+                        <svg id="loader2" aria-hidden="true" class="w-8 h-8 text-gray-200 animate-spin dark:text-gray-600 fill-black" viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z" fill="currentColor"/>
+                            <path d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z" fill="currentFill"/>
+                        </svg>
+                        <div id="hi" class="relative hidden">
+                            <img src="images/humidity.png" width="30px" alt="">
+                            <p class="text-gray-800 mt-[10px]">HUMIDITY</p>
+                            <p class="text-gray-800" id="Humidity"></p>
+                        </div>
+                    </div>
+                    <div class="bg-opacity-50 bg-white flex flex-col items-center  p-[10px] rounded-sm h-[100px] w-[130px]">
+                        <svg id="loader3" aria-hidden="true" class="w-8 h-8 text-gray-200 animate-spin dark:text-gray-600 fill-black" viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z" fill="currentColor"/>
+                            <path d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z" fill="currentFill"/>
+                        </svg>
+                        <div id="ci" class="relative hidden">
+                            <img src="images/clouds.png" width="30px" alt="">
+                            <p class="text-gray-800 mt-[10px]">CLOUDS</p>
+                            <p class="text-gray-800" id="clouds"></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+       
+    </div>
+</body>
+<script src="abc.js"></script>
+<script src="https://kit.fontawesome.com/abe7690f90.js" crossorigin="anonymous"></script>
+</html>     
